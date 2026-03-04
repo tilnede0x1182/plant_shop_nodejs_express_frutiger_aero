@@ -4,7 +4,15 @@ const path = require("path");
 const dbPath = path.join(__dirname, "../db/plantes.db");
 const db = new sqlite3.Database(dbPath);
 
-// Création d'une commande
+/**
+ * Cree une nouvelle commande en base de donnees.
+ * @param {number} userId - Identifiant de utilisateur
+ * @param {Array} items - Liste des items de la commande
+ * @param {number} totalPrice - Prix total de la commande
+ * @param {string} status - Statut de la commande
+ * @param {Function} callback - Callback(err, orderId)
+ * @return {void}
+ */
 function createOrder(userId, items, totalPrice, status, callback) {
   const now = new Date().toISOString();
   db.run(
@@ -15,14 +23,19 @@ function createOrder(userId, items, totalPrice, status, callback) {
         callback(err);
       } else {
         const orderId = this.lastID;
-        // Insertion de chaque item dans order_items
         insertOrderItems(orderId, items, callback);
       }
     }
   );
 }
 
-// Fonction interne pour insérer les items
+/**
+ * Insere les items une commande en base.
+ * @param {number} orderId - Identifiant de la commande
+ * @param {Array} items - Liste des items a inserer
+ * @param {Function} callback - Callback(err, orderId)
+ * @return {void}
+ */
 function insertOrderItems(orderId, items, callback) {
   const now = new Date().toISOString();
   let remaining = items.length;
@@ -63,7 +76,13 @@ function insertOrderItems(orderId, items, callback) {
   });
 }
 
-// Fonction interne pour décrémenter le stock d’une plante
+/**
+ * Decremente le stock une plante apres commande.
+ * @param {number} planteId - Identifiant de la plante
+ * @param {number} quantite - Quantite a decrementer
+ * @param {Function} callback - Callback(err)
+ * @return {void}
+ */
 function decrementPlanteStock(planteId, quantite, callback) {
   const stmt = "UPDATE plantes SET stock = stock - ? WHERE id = ?";
   db.run(stmt, [quantite, planteId], function(err) {
@@ -71,24 +90,33 @@ function decrementPlanteStock(planteId, quantite, callback) {
       return callback(err);
     }
     if (this.changes === 0) {
-      return callback(null); // ou return callback(new Error(...)) si vous voulez bloquer
+      return callback(null);
     }
     callback(null);
   });
 }
 
-// Récupérer la liste des commandes pour un user donné (ou toutes si admin)
+/**
+ * Recupere les commandes un utilisateur ou toutes si admin.
+ * @param {number} userId - Identifiant utilisateur
+ * @param {boolean} isAdmin - True si administrateur
+ * @param {Function} callback - Callback(err, orders)
+ * @return {void}
+ */
 function getOrdersForUser(userId, isAdmin, callback) {
   if (isAdmin) {
-    // L’admin voit toutes les commandes
     db.all("SELECT * FROM orders ORDER BY created_at DESC", [], callback);
   } else {
-    // Un simple utilisateur ne voit que ses commandes
     db.all("SELECT * FROM orders WHERE user_id = ? ORDER BY created_at DESC", [userId], callback);
   }
 }
 
-// Récupérer les items d’une commande donnée
+/**
+ * Recupere les items une commande specifique.
+ * @param {number} orderId - Identifiant de la commande
+ * @param {Function} callback - Callback(err, items)
+ * @return {void}
+ */
 function getOrderItems(orderId, callback) {
   db.all("SELECT * FROM order_items WHERE order_id = ?", [orderId], callback);
 }

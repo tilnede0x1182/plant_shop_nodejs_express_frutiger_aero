@@ -1,7 +1,12 @@
 const bcrypt = require('bcryptjs')
 const userModel = require("../models/userModel")
 
-// POST /api/register
+/**
+ * Inscrit un nouvel utilisateur avec hash du mot de passe.
+ * @param {Object} req - Requête Express contenant prenom, nom, email, mot_de_passe
+ * @param {Object} res - Réponse Express
+ * @return {void}
+ */
 function registerUser(req, res) {
   const { prenom, nom, email, mot_de_passe, adresse, telephone } = req.body
 
@@ -36,7 +41,12 @@ function registerUser(req, res) {
   })
 }
 
-// POST /api/login
+/**
+ * Authentifie un utilisateur avec email et mot de passe.
+ * @param {Object} req - Requête Express contenant email et mot_de_passe
+ * @param {Object} res - Réponse Express
+ * @return {void}
+ */
 function loginUser(req, res) {
   const { email, mot_de_passe } = req.body
 

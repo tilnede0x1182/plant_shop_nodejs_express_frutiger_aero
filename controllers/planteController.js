@@ -1,5 +1,11 @@
 const model = require("../models/planteModel")
 
+/**
+ * Récupère toutes les plantes de la base de données.
+ *
+ * @param {Object} req - Requête Express
+ * @param {Object} res - Réponse Express
+ */
 function getAll(req, res) {
   model.getAll(function(err, plantes) {
     if (err) return res.status(500).json({ message: "Erreur lecture BDD" })
@@ -7,6 +13,12 @@ function getAll(req, res) {
   })
 }
 
+/**
+ * Récupère une plante par son identifiant.
+ *
+ * @param {Object} req - Requête Express avec req.params.id
+ * @param {Object} res - Réponse Express
+ */
 function getById(req, res) {
   model.getById(req.params.id, function(err, plante) {
     if (err) return res.status(500).json({ message: "Erreur BDD" })
@@ -15,6 +27,12 @@ function getById(req, res) {
   })
 }
 
+/**
+ * Crée une nouvelle plante en base de données.
+ *
+ * @param {Object} req - Requête Express avec req.body contenant les données
+ * @param {Object} res - Réponse Express
+ */
 function create(req, res) {
   const plante = req.body
 
@@ -28,6 +46,12 @@ function create(req, res) {
   })
 }
 
+/**
+ * Met à jour une plante existante.
+ *
+ * @param {Object} req - Requête Express avec req.params.id et req.body
+ * @param {Object} res - Réponse Express
+ */
 function update(req, res) {
   const plante = req.body
   model.update(req.params.id, plante, function(err) {
@@ -36,6 +60,12 @@ function update(req, res) {
   })
 }
 
+/**
+ * Supprime une plante de la base de données.
+ *
+ * @param {Object} req - Requête Express avec req.params.id
+ * @param {Object} res - Réponse Express
+ */
 function remove(req, res) {
   model.remove(req.params.id, function(err) {
     if (err) return res.status(500).json({ message: "Erreur suppression" })

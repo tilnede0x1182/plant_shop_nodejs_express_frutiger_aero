@@ -1,6 +1,12 @@
 const orderModel = require("../models/orderModel");
 const userModel = require("../models/userModel");
 
+/**
+ * Crée une nouvelle commande à partir des items du panier.
+ * @param {Object} req - Requête Express contenant utilisateur et items
+ * @param {Object} res - Réponse Express
+ * @return {void}
+ */
 function createOrder(req, res) {
   const { utilisateur, items } = req.body;
   if (!utilisateur || !items || items.length === 0) {
@@ -16,6 +22,12 @@ function createOrder(req, res) {
   });
 }
 
+/**
+ * Liste les commandes de l'utilisateur ou toutes si admin.
+ * @param {Object} req - Requête Express avec query userId et role
+ * @param {Object} res - Réponse Express
+ * @return {void}
+ */
 function listOrders(req, res) {
   const userId = req.query.userId;
   const role = req.query.role;
@@ -33,6 +45,12 @@ function listOrders(req, res) {
   });
 }
 
+/**
+ * Récupère les items d'une commande spécifique.
+ * @param {Object} req - Requête Express avec paramètre id
+ * @param {Object} res - Réponse Express
+ * @return {void}
+ */
 function listOrderItems(req, res) {
   const orderId = req.params.id;
   if (!orderId) {
