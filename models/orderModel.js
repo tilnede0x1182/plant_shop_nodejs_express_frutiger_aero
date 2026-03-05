@@ -6,12 +6,13 @@ const db = new sqlite3.Database(dbPath);
 
 /**
  * Cree une nouvelle commande en base de donnees.
- * @param {number} userId - Identifiant de utilisateur
- * @param {Array} items - Liste des items de la commande
- * @param {number} totalPrice - Prix total de la commande
- * @param {string} status - Statut de la commande
- * @param {Function} callback - Callback(err, orderId)
- * @return {void}
+ *
+ * @param userId number Identifiant de utilisateur
+ * @param items Array Liste des items de la commande
+ * @param totalPrice number Prix total de la commande
+ * @param status string Statut de la commande
+ * @param callback Function Callback(err, orderId)
+ * @return void
  */
 function createOrder(userId, items, totalPrice, status, callback) {
   const now = new Date().toISOString();
@@ -31,10 +32,11 @@ function createOrder(userId, items, totalPrice, status, callback) {
 
 /**
  * Insere les items une commande en base.
- * @param {number} orderId - Identifiant de la commande
- * @param {Array} items - Liste des items a inserer
- * @param {Function} callback - Callback(err, orderId)
- * @return {void}
+ *
+ * @param orderId number Identifiant de la commande
+ * @param items Array Liste des items a inserer
+ * @param callback Function Callback(err, orderId)
+ * @return void
  */
 function insertOrderItems(orderId, items, callback) {
   const now = new Date().toISOString();
@@ -78,10 +80,11 @@ function insertOrderItems(orderId, items, callback) {
 
 /**
  * Decremente le stock une plante apres commande.
- * @param {number} planteId - Identifiant de la plante
- * @param {number} quantite - Quantite a decrementer
- * @param {Function} callback - Callback(err)
- * @return {void}
+ *
+ * @param planteId number Identifiant de la plante
+ * @param quantite number Quantite a decrementer
+ * @param callback Function Callback(err)
+ * @return void
  */
 function decrementPlanteStock(planteId, quantite, callback) {
   const stmt = "UPDATE plantes SET stock = stock - ? WHERE id = ?";
@@ -98,10 +101,11 @@ function decrementPlanteStock(planteId, quantite, callback) {
 
 /**
  * Recupere les commandes un utilisateur ou toutes si admin.
- * @param {number} userId - Identifiant utilisateur
- * @param {boolean} isAdmin - True si administrateur
- * @param {Function} callback - Callback(err, orders)
- * @return {void}
+ *
+ * @param userId number Identifiant utilisateur
+ * @param isAdmin boolean True si administrateur
+ * @param callback Function Callback(err, orders)
+ * @return void
  */
 function getOrdersForUser(userId, isAdmin, callback) {
   if (isAdmin) {
@@ -113,9 +117,10 @@ function getOrdersForUser(userId, isAdmin, callback) {
 
 /**
  * Recupere les items une commande specifique.
- * @param {number} orderId - Identifiant de la commande
- * @param {Function} callback - Callback(err, items)
- * @return {void}
+ *
+ * @param orderId number Identifiant de la commande
+ * @param callback Function Callback(err, items)
+ * @return void
  */
 function getOrderItems(orderId, callback) {
   db.all("SELECT * FROM order_items WHERE order_id = ?", [orderId], callback);

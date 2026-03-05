@@ -1,10 +1,10 @@
 const model = require("../models/planteModel")
 
 /**
- * Récupère toutes les plantes de la base de données.
+ * Recupere toutes les plantes de la base de donnees.
  *
- * @param {Object} req - Requête Express
- * @param {Object} res - Réponse Express
+ * @param req Object Requete Express
+ * @param res Object Reponse Express
  */
 function getAll(req, res) {
   model.getAll(function(err, plantes) {
@@ -14,10 +14,10 @@ function getAll(req, res) {
 }
 
 /**
- * Récupère une plante par son identifiant.
+ * Recupere une plante par son identifiant.
  *
- * @param {Object} req - Requête Express avec req.params.id
- * @param {Object} res - Réponse Express
+ * @param req Object Requete Express avec req.params.id
+ * @param res Object Reponse Express
  */
 function getById(req, res) {
   model.getById(req.params.id, function(err, plante) {
@@ -28,10 +28,10 @@ function getById(req, res) {
 }
 
 /**
- * Crée une nouvelle plante en base de données.
+ * Cree une nouvelle plante en base de donnees.
  *
- * @param {Object} req - Requête Express avec req.body contenant les données
- * @param {Object} res - Réponse Express
+ * @param req Object Requete Express avec req.body contenant les donnees
+ * @param res Object Reponse Express
  */
 function create(req, res) {
   const plante = req.body
@@ -47,10 +47,10 @@ function create(req, res) {
 }
 
 /**
- * Met à jour une plante existante.
+ * Met a jour une plante existante.
  *
- * @param {Object} req - Requête Express avec req.params.id et req.body
- * @param {Object} res - Réponse Express
+ * @param req Object Requete Express avec req.params.id et req.body
+ * @param res Object Reponse Express
  */
 function update(req, res) {
   const plante = req.body
@@ -61,10 +61,10 @@ function update(req, res) {
 }
 
 /**
- * Supprime une plante de la base de données.
+ * Supprime une plante de la base de donnees.
  *
- * @param {Object} req - Requête Express avec req.params.id
- * @param {Object} res - Réponse Express
+ * @param req Object Requete Express avec req.params.id
+ * @param res Object Reponse Express
  */
 function remove(req, res) {
   model.remove(req.params.id, function(err) {
